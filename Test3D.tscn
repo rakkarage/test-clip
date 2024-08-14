@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3j62763tcx15"]
+
+[ext_resource type="PackedScene" uid="uid://dxgkxasg2al8b" path="res://Test.tscn" id="1_fc0d6"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_hmtn5"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_5f8ex"]
+viewport_path = NodePath("MeshInstance3D/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sq88t"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_5f8ex")
+
+[node name="Test3D" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+cull_mask = 1048064
+current = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+layers = 512
+mesh = SubResource("QuadMesh_hmtn5")
+surface_material_override/0 = SubResource("StandardMaterial3D_sq88t")
+
+[node name="SubViewport" type="SubViewport" parent="MeshInstance3D"]
+
+[node name="Test" parent="MeshInstance3D/SubViewport" instance=ExtResource("1_fc0d6")]
