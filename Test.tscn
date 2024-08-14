@@ -1,4 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://dxgkxasg2al8b"]
+[gd_scene load_steps=8 format=3 uid="uid://dxgkxasg2al8b"]
+
+[ext_resource type="Shader" path="res://StencilMask.gdshader" id="2_jonqb"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_i2vdl"]
 
@@ -12,12 +14,16 @@ albedo_texture = SubResource("ViewportTexture_ylt3q")
 [sub_resource type="QuadMesh" id="QuadMesh_omyil"]
 size = Vector2(0.5, 0.5)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_buips"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_mbljl"]
 viewport_path = NodePath("MeshParent/MeshChild/SubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g28k1"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eeg77"]
 resource_local_to_scene = true
-albedo_texture = SubResource("ViewportTexture_buips")
+render_priority = 0
+shader = ExtResource("2_jonqb")
+shader_parameter/parent_position = Vector2(0, 0)
+shader_parameter/parent_size = Vector2(1, 1)
+shader_parameter/viewport_texture = SubResource("ViewportTexture_mbljl")
 
 [node name="Test" type="Node3D"]
 
@@ -45,7 +51,7 @@ color = Color(1, 0, 0, 1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.1)
 mesh = SubResource("QuadMesh_omyil")
 skeleton = NodePath("../SubViewport")
-surface_material_override/0 = SubResource("StandardMaterial3D_g28k1")
+surface_material_override/0 = SubResource("ShaderMaterial_eeg77")
 
 [node name="SubViewport" type="SubViewport" parent="MeshParent/MeshChild"]
 
