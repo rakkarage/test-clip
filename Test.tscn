@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://dxgkxasg2al8b"]
 
-[ext_resource type="Shader" path="res://StencilMask.gdshader" id="2_jonqb"]
+[ext_resource type="Shader" path="res://RectMask.gdshader" id="1_0hmvt"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_i2vdl"]
 
@@ -20,7 +20,7 @@ viewport_path = NodePath("MeshParent/MeshChild/SubViewport")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_eeg77"]
 resource_local_to_scene = true
 render_priority = 0
-shader = ExtResource("2_jonqb")
+shader = ExtResource("1_0hmvt")
 shader_parameter/parent_position = Vector2(0, 0)
 shader_parameter/parent_size = Vector2(1, 1)
 shader_parameter/viewport_texture = SubResource("ViewportTexture_mbljl")
