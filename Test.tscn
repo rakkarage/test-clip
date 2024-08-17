@@ -50,7 +50,6 @@ color = Color(1, 0, 0, 1)
 [node name="MeshChild" type="MeshInstance3D" parent="MeshParent"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.1)
 mesh = SubResource("QuadMesh_omyil")
-skeleton = NodePath("../SubViewport")
 surface_material_override/0 = SubResource("ShaderMaterial_eeg77")
 
 [node name="SubViewport" type="SubViewport" parent="MeshParent/MeshChild"]
