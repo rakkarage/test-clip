@@ -13,7 +13,7 @@ albedo_texture = SubResource("ViewportTexture_ylt3q")
 size = Vector2(0.5, 0.5)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_buips"]
-viewport_path = NodePath("MeshParent/MeshChild/SubViewport")
+viewport_path = NodePath("MeshParent/SubViewport/MeshChild/SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g28k1"]
 resource_local_to_scene = true
@@ -23,36 +23,25 @@ albedo_texture = SubResource("ViewportTexture_buips")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+cull_mask = 1
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+layers = 3
 
 [node name="MeshParent" type="MeshInstance3D" parent="."]
 mesh = SubResource("QuadMesh_i2vdl")
 surface_material_override/0 = SubResource("StandardMaterial3D_haddc")
 
 [node name="SubViewport" type="SubViewport" parent="MeshParent"]
+transparent_bg = true
 
-[node name="ColorRect" type="ColorRect" parent="MeshParent/SubViewport"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 0, 0, 1)
+[node name="Camera3D" type="Camera3D" parent="MeshParent/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+cull_mask = 2
 
-[node name="MeshChild" type="MeshInstance3D" parent="MeshParent"]
+[node name="MeshChild" type="MeshInstance3D" parent="MeshParent/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.1)
+layers = 2
 mesh = SubResource("QuadMesh_omyil")
-skeleton = NodePath("../SubViewport")
 surface_material_override/0 = SubResource("StandardMaterial3D_g28k1")
-
-[node name="SubViewport" type="SubViewport" parent="MeshParent/MeshChild"]
-
-[node name="ColorRect" type="ColorRect" parent="MeshParent/MeshChild/SubViewport"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 1, 0, 1)
