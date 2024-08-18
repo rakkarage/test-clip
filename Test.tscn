@@ -1,4 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://dxgkxasg2al8b"]
+[gd_scene load_steps=8 format=3 uid="uid://dxgkxasg2al8b"]
+
+[ext_resource type="Texture2D" uid="uid://blce0jc0k262s" path="res://icon.svg" id="1_litdl"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_i2vdl"]
 
@@ -12,12 +14,12 @@ albedo_texture = SubResource("ViewportTexture_ylt3q")
 [sub_resource type="QuadMesh" id="QuadMesh_omyil"]
 size = Vector2(0.5, 0.5)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_buips"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ln7jg"]
 viewport_path = NodePath("MeshParent/SubViewport/MeshChild/SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g28k1"]
 resource_local_to_scene = true
-albedo_texture = SubResource("ViewportTexture_buips")
+albedo_texture = SubResource("ViewportTexture_ln7jg")
 
 [node name="Test" type="Node3D"]
 
@@ -45,3 +47,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.1)
 layers = 2
 mesh = SubResource("QuadMesh_omyil")
 surface_material_override/0 = SubResource("StandardMaterial3D_g28k1")
+
+[node name="SubViewport" type="SubViewport" parent="MeshParent/SubViewport/MeshChild"]
+transparent_bg = true
+
+[node name="TextureRect" type="TextureRect" parent="MeshParent/SubViewport/MeshChild/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_litdl")
