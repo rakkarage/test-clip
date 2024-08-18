@@ -1,24 +1,37 @@
-[gd_scene load_steps=8 format=3 uid="uid://dxgkxasg2al8b"]
+[gd_scene load_steps=11 format=3 uid="uid://dxgkxasg2al8b"]
 
 [ext_resource type="Texture2D" uid="uid://blce0jc0k262s" path="res://icon.svg" id="1_litdl"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_i2vdl"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ylt3q"]
-viewport_path = NodePath("MeshParent/SubViewport")
+viewport_path = NodePath("MeshCombine/SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_haddc"]
 resource_local_to_scene = true
+transparency = 1
 albedo_texture = SubResource("ViewportTexture_ylt3q")
+
+[sub_resource type="QuadMesh" id="QuadMesh_8xkxn"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_bj2x1"]
+viewport_path = NodePath("MeshCombine/SubViewport/MeshParent/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ql7mp"]
+resource_local_to_scene = true
+transparency = 1
+albedo_texture = SubResource("ViewportTexture_bj2x1")
 
 [sub_resource type="QuadMesh" id="QuadMesh_omyil"]
 size = Vector2(0.5, 0.5)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ln7jg"]
-viewport_path = NodePath("MeshParent/SubViewport/MeshChild/SubViewport")
+viewport_path = NodePath("MeshCombine/SubViewport/MeshChild/SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g28k1"]
 resource_local_to_scene = true
+render_priority = 1
+transparency = 1
 albedo_texture = SubResource("ViewportTexture_ln7jg")
 
 [node name="Test" type="Node3D"]
@@ -31,27 +44,44 @@ cull_mask = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 layers = 3
 
-[node name="MeshParent" type="MeshInstance3D" parent="."]
+[node name="MeshCombine" type="MeshInstance3D" parent="."]
 mesh = SubResource("QuadMesh_i2vdl")
 surface_material_override/0 = SubResource("StandardMaterial3D_haddc")
 
-[node name="SubViewport" type="SubViewport" parent="MeshParent"]
+[node name="SubViewport" type="SubViewport" parent="MeshCombine"]
 transparent_bg = true
 
-[node name="Camera3D" type="Camera3D" parent="MeshParent/SubViewport"]
+[node name="Camera3D" type="Camera3D" parent="MeshCombine/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 cull_mask = 2
+fov = 53.0
 
-[node name="MeshChild" type="MeshInstance3D" parent="MeshParent/SubViewport"]
+[node name="MeshParent" type="MeshInstance3D" parent="MeshCombine/SubViewport"]
+layers = 2
+mesh = SubResource("QuadMesh_8xkxn")
+surface_material_override/0 = SubResource("StandardMaterial3D_ql7mp")
+
+[node name="SubViewport" type="SubViewport" parent="MeshCombine/SubViewport/MeshParent"]
+transparent_bg = true
+
+[node name="TextureRect" type="TextureRect" parent="MeshCombine/SubViewport/MeshParent/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_litdl")
+
+[node name="MeshChild" type="MeshInstance3D" parent="MeshCombine/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.1)
 layers = 2
 mesh = SubResource("QuadMesh_omyil")
 surface_material_override/0 = SubResource("StandardMaterial3D_g28k1")
 
-[node name="SubViewport" type="SubViewport" parent="MeshParent/SubViewport/MeshChild"]
+[node name="SubViewport" type="SubViewport" parent="MeshCombine/SubViewport/MeshChild"]
 transparent_bg = true
 
-[node name="TextureRect" type="TextureRect" parent="MeshParent/SubViewport/MeshChild/SubViewport"]
+[node name="TextureRect" type="TextureRect" parent="MeshCombine/SubViewport/MeshChild/SubViewport"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
