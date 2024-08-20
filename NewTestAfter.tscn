@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bbrvq56v4hc0v"]
 
-[ext_resource type="Shader" path="res://RectMaskColor.gdshader" id="1_q1ewp"]
+[ext_resource type="Shader" path="res://MeshMaskColor.gdshader" id="1_21iyu"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_glf76"]
 
@@ -12,10 +12,10 @@ size = Vector2(0.5, 0.5)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0eajx"]
 render_priority = 0
-shader = ExtResource("1_q1ewp")
+shader = ExtResource("1_21iyu")
 shader_parameter/color = Color(0, 1, 0, 1)
-shader_parameter/parent_position = Vector2(0, 0)
-shader_parameter/parent_size = Vector2(1, 1)
+shader_parameter/mesh_mask_position = Vector2(0, 0)
+shader_parameter/mesh_mask_size = Vector2(1, 1)
 
 [node name="NewTest" type="Node3D"]
 
