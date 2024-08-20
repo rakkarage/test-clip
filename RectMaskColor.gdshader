@@ -1,6 +1,6 @@
 shader_type spatial;
 
-uniform sampler2D viewport_texture : source_color;
+uniform vec4 color: source_color = vec4(1, 1, 1, 1);
 uniform vec2 parent_position = vec2(0, 0);
 uniform vec2 parent_size = vec2(1, 1);
 
@@ -11,7 +11,6 @@ void fragment() {
 		discard;
 	}
 
-	vec4 ui_color = texture(viewport_texture, UV);
-	ALBEDO = ui_color.rgb;
-	ALPHA = ui_color.a;
+	ALBEDO = color.rgb;
+	ALPHA = color.a;
 }

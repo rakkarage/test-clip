@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://bbrvq56v4hc0v"]
+
+[ext_resource type="Shader" path="res://RectMaskColor.gdshader" id="1_q1ewp"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_glf76"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cy4dd"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_phyhs"]
+size = Vector2(0.5, 0.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0eajx"]
+render_priority = 0
+shader = ExtResource("1_q1ewp")
+shader_parameter/color = Color(0, 1, 0, 1)
+shader_parameter/parent_position = Vector2(0, 0)
+shader_parameter/parent_size = Vector2(1, 1)
+
+[node name="NewTest" type="Node3D"]
+
+[node name="Light" type="DirectionalLight3D" parent="."]
+shadow_enabled = true
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="MeshParent" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_glf76")
+surface_material_override/0 = SubResource("StandardMaterial3D_cy4dd")
+
+[node name="MeshChild" type="MeshInstance3D" parent="MeshParent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.1)
+mesh = SubResource("QuadMesh_phyhs")
+surface_material_override/0 = SubResource("ShaderMaterial_0eajx")
