@@ -5,12 +5,11 @@ uniform vec2 mesh_mask_position = vec2(0, 0);
 uniform vec2 mesh_mask_size = vec2(1, 1);
 
 void fragment() {
-	vec2 frag_to_parent_xy = VERTEX.xy - mesh_mask_position.xy;
-	vec2 abs_distance_xy = abs(frag_to_parent_xy);
-	if (any(greaterThan(abs_distance_xy, mesh_mask_size.xy * 0.5))) {
+	vec4 world_pos = INV_VIEW_MATRIX * vec4(VERTEX, 1.0);
+	vec2 frag_to_mask = (world_pos.xy - mesh_mask_position) / -VERTEX.z;
+	if (any(greaterThan(abs(frag_to_mask), mesh_mask_size * 0.5))) {
 		discard;
 	}
-
 	ALBEDO = color.rgb;
 	ALPHA = color.a;
 }
