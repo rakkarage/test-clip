@@ -1,7 +1,7 @@
 extends Node3D
 
-@onready var _parent = %MeshParent
-@onready var _child = %MeshChild
+@onready var _parent = %Mask
+@onready var _child = %Masked
 
 func _process(_delta: float) -> void:
 	var mat = _child.get_surface_override_material(0)
