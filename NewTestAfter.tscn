@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bbrvq56v4hc0v"]
 
 [ext_resource type="Script" path="res://UpdateShader.gd" id="1_1i7hr"]
-[ext_resource type="Shader" path="res://MeshMaskColor.gdshader" id="1_21iyu"]
+[ext_resource type="Shader" path="res://QuadMaskColor.gdshader" id="1_21iyu"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_glf76"]
 
@@ -29,11 +29,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 
 [node name="Mask" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
+transform = Transform3D(0.986337, 0, 0.164738, 0, 1, 0, -0.164738, 0, 0.986337, 0, 0, 0)
 mesh = SubResource("QuadMesh_glf76")
 surface_material_override/0 = SubResource("StandardMaterial3D_cy4dd")
 
 [node name="Masked" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.1)
+transform = Transform3D(0.950299, 0, -0.31134, 0, 1, 0, 0.31134, 0, 0.950299, 0.5, 0, 0.1)
 mesh = SubResource("QuadMesh_phyhs")
 surface_material_override/0 = SubResource("ShaderMaterial_0eajx")
