@@ -1,26 +1,34 @@
 shader_type spatial;
 
-uniform vec4 color: source_color = vec4(1, 1, 1, 1);
-uniform mat4 mask_transform = mat4(1);
-uniform vec2 mask_size = vec2(1, 1);
+uniform vec4 color: source_color = vec4(1.0);
+uniform mat4 mask_transform = mat4(1.0);
+uniform vec2 mask_size = vec2(1.0);
+
+varying vec2 mask_min;
+varying vec2 mask_max;
+
+void vertex() {
+	mat4 clip_space = PROJECTION_MATRIX * VIEW_MATRIX * mask_transform;
+	vec2 half_size = mask_size * 0.5;
+	vec4 corners[4];
+	corners[0] = clip_space * vec4(-half_size.x, -half_size.y, 0.0, 1.0);
+	corners[1] = clip_space * vec4(half_size.x, -half_size.y, 0.0, 1.0);
+	corners[2] = clip_space * vec4(half_size.x, half_size.y, 0.0, 1.0);
+	corners[3] = clip_space * vec4(-half_size.x, half_size.y, 0.0, 1.0);
+	mask_min = vec2(1.0);
+	mask_max = vec2(-1.0);
+	for (int i = 0; i < 4; i++) {
+		vec2 corner = corners[i].xy / corners[i].w;
+		mask_min = min(mask_min, corner);
+		mask_max = max(mask_max, corner);
+	}
+}
 
 void fragment() {
-	// Transform mask corners to clip space
-	vec4 mask_center = PROJECTION_MATRIX * VIEW_MATRIX * vec4(mask_transform[3].xyz, 1.0);
-	vec4 mask_extent = PROJECTION_MATRIX * VIEW_MATRIX * vec4(mask_size.x * 0.5, mask_size.y * 0.5, 0.0, 0.0);
-
-	// Calculate mask bounds in clip space
-	vec2 mask_min = mask_center.xy / mask_center.w - abs(mask_extent.xy / mask_center.w);
-	vec2 mask_max = mask_center.xy / mask_center.w + abs(mask_extent.xy / mask_center.w);
-
-	// Current fragment position in clip space
 	vec2 clip_pos = SCREEN_UV * 2.0 - 1.0;
-
-	// Check if the current fragment is within the mask boundaries
-	if (clip_pos.x < mask_min.x || clip_pos.x > mask_max.x || clip_pos.y < mask_min.y || clip_pos.y > mask_max.y) {
+	if (any(lessThan(clip_pos, mask_min)) || any(greaterThan(clip_pos, mask_max))) {
 		discard;
 	}
-
 	ALBEDO = color.rgb;
 	ALPHA = color.a;
 }
