@@ -1,12 +1,12 @@
 shader_type spatial;
 
 uniform vec4 color: source_color = vec4(1, 1, 1, 1);
-uniform vec3 mask_position = vec3(0, 0, 0);
+uniform mat4 mask_transform = mat4(1);
 uniform vec2 mask_size = vec2(1, 1);
 
 void fragment() {
 	// Transform mask corners to clip space
-	vec4 mask_center = PROJECTION_MATRIX * VIEW_MATRIX * vec4(mask_position, 1.0);
+	vec4 mask_center = PROJECTION_MATRIX * VIEW_MATRIX * vec4(mask_transform[3].xyz, 1.0);
 	vec4 mask_extent = PROJECTION_MATRIX * VIEW_MATRIX * vec4(mask_size.x * 0.5, mask_size.y * 0.5, 0.0, 0.0);
 
 	// Calculate mask bounds in clip space
