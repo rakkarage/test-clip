@@ -7,17 +7,20 @@ uniform vec2 mask_size = vec2(1.0);
 varying vec2 mask_min;
 varying vec2 mask_max;
 
+const int NUM_CORNERS = 4;
+
 void vertex() {
 	mat4 clip_space = PROJECTION_MATRIX * VIEW_MATRIX * mask_transform;
 	vec2 half_size = mask_size * 0.5;
-	vec4 corners[4];
-	corners[0] = clip_space * vec4(-half_size.x, -half_size.y, 0.0, 1.0);
-	corners[1] = clip_space * vec4(half_size.x, -half_size.y, 0.0, 1.0);
-	corners[2] = clip_space * vec4(half_size.x, half_size.y, 0.0, 1.0);
-	corners[3] = clip_space * vec4(-half_size.x, half_size.y, 0.0, 1.0);
+	vec4 corners[NUM_CORNERS] = {
+		clip_space * vec4(-half_size.x, -half_size.y, 0.0, 1.0),
+		clip_space * vec4(half_size.x, -half_size.y, 0.0, 1.0),
+		clip_space * vec4(half_size.x, half_size.y, 0.0, 1.0),
+		clip_space * vec4(-half_size.x, half_size.y, 0.0, 1.0)
+	};
 	mask_min = vec2(1.0);
 	mask_max = vec2(-1.0);
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < NUM_CORNERS; i++) {
 		vec2 corner = corners[i].xy / corners[i].w;
 		mask_min = min(mask_min, corner);
 		mask_max = max(mask_max, corner);
