@@ -1,10 +1,10 @@
 [gd_scene load_steps=14 format=3 uid="uid://bbrvq56v4hc0v"]
 
-[ext_resource type="Script" path="res://QuadMask.gd" id="1_1i7hr"]
-[ext_resource type="Shader" path="res://QuadMask.gdshader" id="1_21iyu"]
-[ext_resource type="PackedScene" uid="uid://cuxe0ccf2jtxo" path="res://Mask.tscn" id="2_ljvun"]
-[ext_resource type="Script" path="res://ViewportAreaInput.gd" id="2_wqg8m"]
-[ext_resource type="PackedScene" uid="uid://dv354bd7r3aea" path="res://Masked.tscn" id="4_ah7k8"]
+[ext_resource type="Script" path="res://QuadMask.gd" id="1_5w2st"]
+[ext_resource type="Script" path="res://ViewportAreaInput.gd" id="2_psppb"]
+[ext_resource type="PackedScene" uid="uid://cuxe0ccf2jtxo" path="res://Mask.tscn" id="3_nhn3e"]
+[ext_resource type="Shader" path="res://QuadMask.gdshader" id="4_vod7s"]
+[ext_resource type="PackedScene" uid="uid://dv354bd7r3aea" path="res://Masked.tscn" id="5_10j1s"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_glf76"]
 
@@ -27,7 +27,7 @@ viewport_path = NodePath("Masked/SubViewport")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0eajx"]
 resource_local_to_scene = true
 render_priority = 0
-shader = ExtResource("1_21iyu")
+shader = ExtResource("4_vod7s")
 shader_parameter/mask_transform = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
 shader_parameter/mask_size = Vector2(1, 1)
 shader_parameter/texture = SubResource("ViewportTexture_xcd3g")
@@ -35,8 +35,8 @@ shader_parameter/texture = SubResource("ViewportTexture_xcd3g")
 [sub_resource type="BoxShape3D" id="BoxShape3D_fob41"]
 size = Vector3(0.5, 0.5, 0.001)
 
-[node name="NewTest" type="Node3D"]
-script = ExtResource("1_1i7hr")
+[node name="Test" type="Node3D"]
+script = ExtResource("1_5w2st")
 
 [node name="Light" type="DirectionalLight3D" parent="."]
 shadow_enabled = true
@@ -49,11 +49,11 @@ unique_name_in_owner = true
 transform = Transform3D(0.939693, 0, 0.34202, 0, 1, 0, -0.34202, 0, 0.939693, 0, 0, 0)
 mesh = SubResource("QuadMesh_glf76")
 surface_material_override/0 = SubResource("StandardMaterial3D_cy4dd")
-script = ExtResource("2_wqg8m")
+script = ExtResource("2_psppb")
 
 [node name="SubViewport" type="SubViewport" parent="Mask"]
 
-[node name="Interface" parent="Mask/SubViewport" instance=ExtResource("2_ljvun")]
+[node name="Interface" parent="Mask/SubViewport" instance=ExtResource("3_nhn3e")]
 
 [node name="Area3D" type="Area3D" parent="Mask"]
 
@@ -65,11 +65,11 @@ unique_name_in_owner = true
 transform = Transform3D(0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, 0.3, 0, 0.1)
 mesh = SubResource("QuadMesh_phyhs")
 surface_material_override/0 = SubResource("ShaderMaterial_0eajx")
-script = ExtResource("2_wqg8m")
+script = ExtResource("2_psppb")
 
 [node name="SubViewport" type="SubViewport" parent="Masked"]
 
-[node name="Interface" parent="Masked/SubViewport" instance=ExtResource("4_ah7k8")]
+[node name="Interface" parent="Masked/SubViewport" instance=ExtResource("5_10j1s")]
 
 [node name="Area3D" type="Area3D" parent="Masked"]
 
