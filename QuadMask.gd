@@ -14,7 +14,7 @@ func _ready() -> void:
 	_maskedBottom.connect("pressed", _on_Bottom_pressed)
 
 func _process(_delta: float) -> void:
-	var mat = _masked.get_surface_override_material(0)
+	var mat: ShaderMaterial = _masked.get_surface_override_material(0)
 	if mat:
 		mat.set_shader_parameter("mask_transform", _mask.global_transform)
 		mat.set_shader_parameter("mask_size", _mask.mesh.size)
