@@ -1,22 +1,39 @@
-[gd_scene load_steps=7 format=3 uid="uid://bbrvq56v4hc0v"]
+[gd_scene load_steps=14 format=3 uid="uid://bbrvq56v4hc0v"]
 
-[ext_resource type="Script" path="res://UpdateShader.gd" id="1_1i7hr"]
-[ext_resource type="Shader" path="res://QuadMaskColor.gdshader" id="1_21iyu"]
+[ext_resource type="Script" path="res://QuadMask.gd" id="1_1i7hr"]
+[ext_resource type="Shader" path="res://QuadMask.gdshader" id="1_21iyu"]
+[ext_resource type="PackedScene" uid="uid://cuxe0ccf2jtxo" path="res://Mask.tscn" id="2_ljvun"]
+[ext_resource type="Script" path="res://QuadAreaSubViewportInput.gd" id="2_wqg8m"]
+[ext_resource type="PackedScene" uid="uid://dv354bd7r3aea" path="res://Masked.tscn" id="4_ah7k8"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_glf76"]
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_gaj7f"]
+viewport_path = NodePath("Mask/SubViewport")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cy4dd"]
-albedo_color = Color(1, 0, 0, 1)
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_gaj7f")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ieo0t"]
+size = Vector3(1, 1, 0.001)
 
 [sub_resource type="QuadMesh" id="QuadMesh_phyhs"]
 size = Vector2(0.5, 0.5)
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_xcd3g"]
+viewport_path = NodePath("Masked/SubViewport")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0eajx"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_21iyu")
-shader_parameter/color = Color(0, 1, 0, 1)
 shader_parameter/mask_transform = Projection(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)
 shader_parameter/mask_size = Vector2(1, 1)
+shader_parameter/texture = SubResource("ViewportTexture_xcd3g")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fob41"]
+size = Vector3(0.5, 0.5, 0.001)
 
 [node name="NewTest" type="Node3D"]
 script = ExtResource("1_1i7hr")
@@ -29,12 +46,32 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 
 [node name="Mask" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(0.986337, 0, 0.164738, 0, 1, 0, -0.164738, 0, 0.986337, 0, 0, 0)
+transform = Transform3D(0.939693, 0, 0.34202, 0, 1, 0, -0.34202, 0, 0.939693, 0, 0, 0)
 mesh = SubResource("QuadMesh_glf76")
 surface_material_override/0 = SubResource("StandardMaterial3D_cy4dd")
+script = ExtResource("2_wqg8m")
+
+[node name="SubViewport" type="SubViewport" parent="Mask"]
+
+[node name="Interface" parent="Mask/SubViewport" instance=ExtResource("2_ljvun")]
+
+[node name="Area3D" type="Area3D" parent="Mask"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mask/Area3D"]
+shape = SubResource("BoxShape3D_ieo0t")
 
 [node name="Masked" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(0.950299, 0, -0.31134, 0, 1, 0, 0.31134, 0, 0.950299, 0.5, 0, 0.1)
+transform = Transform3D(0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, 0.3, 0, 0.1)
 mesh = SubResource("QuadMesh_phyhs")
 surface_material_override/0 = SubResource("ShaderMaterial_0eajx")
+script = ExtResource("2_wqg8m")
+
+[node name="SubViewport" type="SubViewport" parent="Masked"]
+
+[node name="Interface" parent="Masked/SubViewport" instance=ExtResource("4_ah7k8")]
+
+[node name="Area3D" type="Area3D" parent="Masked"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Masked/Area3D"]
+shape = SubResource("BoxShape3D_fob41")

@@ -1,6 +1,6 @@
 shader_type spatial;
 
-uniform vec4 color: source_color = vec4(1.0);
+uniform sampler2D texture: source_color;
 uniform mat4 mask_transform = mat4(1.0);
 uniform vec2 mask_size = vec2(1.0);
 
@@ -32,6 +32,7 @@ void fragment() {
 	if (any(lessThan(clip_pos, mask_min)) || any(greaterThan(clip_pos, mask_max))) {
 		discard;
 	}
-	ALBEDO = color.rgb;
-	ALPHA = color.a;
+	vec4 tex_color = texture(texture, UV);
+	ALBEDO = tex_color.rgb;
+	ALPHA = tex_color.a;
 }
