@@ -7,6 +7,9 @@ extends Node3D
 @onready var _maskedTop := %Masked/SubViewport/Interface/Top
 @onready var _maskedBottom := %Masked/SubViewport/Interface/Bottom
 
+var _prev_mask_transform := Transform3D()
+var _prev_mask_size := Vector2()
+
 func _ready() -> void:
 	_maskBack.connect("pressed", _on_Back_pressed)
 	_maskFore.connect("pressed", _on_Fore_pressed)
@@ -16,8 +19,14 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	var mat: ShaderMaterial = _masked.get_surface_override_material(0)
 	if mat:
-		mat.set_shader_parameter("mask_transform", _mask.global_transform)
-		mat.set_shader_parameter("mask_size", _mask.mesh.size)
+		var current_transform = _mask.global_transform
+		if not current_transform.is_equal_approx(_prev_mask_transform):
+			mat.set_shader_parameter("mask_transform", current_transform)
+			_prev_mask_transform = current_transform
+		var current_size = _mask.mesh.size
+		if not current_size.is_equal_approx(_prev_mask_size):
+			mat.set_shader_parameter("mask_size", current_size)
+			_prev_mask_size = current_size
 
 func _on_Back_pressed() -> void:
 	print("Back")
