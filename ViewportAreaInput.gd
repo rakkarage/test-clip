@@ -1,29 +1,16 @@
 extends MeshInstance3D
 
 @onready var _viewport = $SubViewport
-@onready var _interface = $SubViewport/Interface
 @onready var _area = $Area3D
 
-var is_mouse_inside := false
-var last_event_pos2D := Vector2()
-var last_event_time := -1.0
+var _is_mouse_inside := false
+var _last_event_pos2D := Vector2()
+var _last_event_time := -1.0
 
 func _ready() -> void:
-	_interface.connect("draw", _on_draw)
 	_area.input_event.connect(_on_input_event)
-	_area.mouse_entered.connect(_on_mouse_entered)
-	_area.mouse_exited.connect(_on_mouse_exited)
-
-func _on_draw() -> void:
-	print("draw")
-
-func _on_mouse_entered() -> void:
-	is_mouse_inside = true
-	print("Mouse entered")
-
-func _on_mouse_exited() -> void:
-	is_mouse_inside = false
-	print("Mouse exited")
+	_area.mouse_entered.connect(func(): _is_mouse_inside = true)
+	_area.mouse_exited.connect(func(): _is_mouse_inside = false)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event in [InputEventMouseButton, InputEventMouseMotion, InputEventScreenDrag, InputEventScreenTouch]:
@@ -49,7 +36,7 @@ func _on_input_event(_camera: Camera3D, event: InputEvent, event_position: Vecto
 
 	var event_pos2D := Vector2()
 
-	if is_mouse_inside:
+	if _is_mouse_inside:
 		print("is_mouse_inside")
 		# Convert the relative event position from 3D to 2D.
 		event_pos2D = Vector2(event_pos3D.x, -event_pos3D.y)
@@ -67,9 +54,9 @@ func _on_input_event(_camera: Camera3D, event: InputEvent, event_position: Vecto
 		event_pos2D.y *= _viewport.size.y
 		# We need to do these conversions so the event's position is in the viewport's coordinate system.
 
-	elif last_event_pos2D != null:
+	elif _last_event_pos2D != null:
 		# Fall back to the last known event position.
-		event_pos2D = last_event_pos2D
+		event_pos2D = _last_event_pos2D
 
 	# Set the event's position and global position.
 	event.position = event_pos2D
@@ -79,19 +66,19 @@ func _on_input_event(_camera: Camera3D, event: InputEvent, event_position: Vecto
 	# Calculate the relative event distance.
 	if event is InputEventMouseMotion or event is InputEventScreenDrag:
 		# If there is not a stored previous position, then we'll assume there is no relative motion.
-		if last_event_pos2D == null:
+		if _last_event_pos2D == null:
 			event.relative = Vector2(0, 0)
 		# If there is a stored previous position, then we'll calculate the relative position by subtracting
 		# the previous position from the new position. This will give us the distance the event traveled from prev_pos.
 		else:
-			event.relative = event_pos2D - last_event_pos2D
-			event.velocity = event.relative / (now - last_event_time)
+			event.relative = event_pos2D - _last_event_pos2D
+			event.velocity = event.relative / (now - _last_event_time)
 
 	# Update last_event_pos2D with the position we just calculated.
-	last_event_pos2D = event_pos2D
+	_last_event_pos2D = event_pos2D
 
 	# Update last_event_time to current time.
-	last_event_time = now
+	_last_event_time = now
 
 	# Finally, send the processed input event to the viewport.
 	_viewport.push_input(event)

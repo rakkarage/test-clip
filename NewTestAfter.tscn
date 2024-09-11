@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://QuadMask.gd" id="1_1i7hr"]
 [ext_resource type="Shader" path="res://QuadMask.gdshader" id="1_21iyu"]
 [ext_resource type="PackedScene" uid="uid://cuxe0ccf2jtxo" path="res://Mask.tscn" id="2_ljvun"]
-[ext_resource type="Script" path="res://QuadAreaSubViewportInput.gd" id="2_wqg8m"]
+[ext_resource type="Script" path="res://ViewportAreaInput.gd" id="2_wqg8m"]
 [ext_resource type="PackedScene" uid="uid://dv354bd7r3aea" path="res://Masked.tscn" id="4_ah7k8"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_glf76"]
