@@ -1,11 +1,11 @@
 extends Node3D
 
-@onready var _mask := %Mask
-@onready var _maskBack := %Mask/SubViewport/Interface/Back
-@onready var _maskFore := %Mask/SubViewport/Interface/Fore
-@onready var _masked := %Masked
-@onready var _maskedTop := %Masked/SubViewport/Interface/Top
-@onready var _maskedBottom := %Masked/SubViewport/Interface/Bottom
+@onready var _mask: MeshInstance3D = %Mask
+@onready var _maskBack: Button = %Mask/SubViewport/Interface/Back
+@onready var _maskFore: Button = %Mask/SubViewport/Interface/Fore
+@onready var _masked: MeshInstance3D = %Masked
+@onready var _maskedTop: Button = %Masked/SubViewport/Interface/Top
+@onready var _maskedBottom: Button = %Masked/SubViewport/Interface/Bottom
 
 var _prev_mask_transform := Transform3D()
 var _prev_mask_size := Vector2()

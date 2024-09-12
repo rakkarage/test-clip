@@ -1,7 +1,7 @@
 extends MeshInstance3D
 
-@onready var _viewport = $SubViewport
-@onready var _area = $Area3D
+@onready var _viewport: SubViewport = $SubViewport
+@onready var _area: Area3D = $Area3D
 
 var _is_mouse_inside := false
 var _last_event_pos2D := Vector2()
