@@ -1,4 +1,4 @@
-extends MeshInstance3D
+class_name QuadInput extends MeshInstance3D
 
 @onready var _viewport: SubViewport = $SubViewport
 @onready var _area: Area3D = $Area3D
@@ -6,6 +6,9 @@ extends MeshInstance3D
 var _is_mouse_inside := false
 var _last_event_pos2D := Vector2()
 var _last_event_time := -1.0
+
+@export var use_input_mask := false
+@export var is_mouse_inside_mask := false
 
 func _ready() -> void:
 	_area.input_event.connect(_on_input_event)
@@ -18,6 +21,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	_viewport.push_input(event)
 
 func _on_input_event(_camera: Camera3D, event: InputEvent, event_position: Vector3, _normal: Vector3, _shape_idx: int) -> void:
+	if use_input_mask and not is_mouse_inside_mask:
+		return
+
 	var mesh_size: Vector2 = mesh.size
 	var event_pos3D := global_transform.affine_inverse() * event_position
 	var event_pos2D := Vector2()
