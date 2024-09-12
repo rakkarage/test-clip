@@ -51,10 +51,6 @@ func _input(event: InputEvent) -> void:
 		_masked.is_mouse_inside_mask = _is_mouse_inside_mask()
 
 func _is_mouse_inside_mask() -> bool:
-	var mouse_pos := _camera.get_viewport().get_mouse_position()
-	var ray_origin := _camera.project_ray_origin(mouse_pos)
-	var ray_target := ray_origin + _camera.project_ray_normal(mouse_pos) * 1000.0
-	_raycast.global_transform.origin = ray_origin
-	_raycast.target_position = ray_target
+	_raycast.target_position = _raycast.global_transform.origin + _camera.project_ray_normal(_camera.get_viewport().get_mouse_position()) * 100.0
 	_raycast.force_raycast_update()
 	return _raycast.is_colliding() and _raycast.get_collider() == _maskArea
