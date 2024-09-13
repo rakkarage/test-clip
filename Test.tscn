@@ -66,7 +66,7 @@ shape = SubResource("BoxShape3D_ieo0t")
 
 [node name="Masked" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, 0.3, 0, 0.1)
+transform = Transform3D(0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, 0.3, 0.3, 0.1)
 mesh = SubResource("QuadMesh_phyhs")
 surface_material_override/0 = SubResource("ShaderMaterial_0eajx")
 script = ExtResource("2_psppb")
