@@ -1,12 +1,14 @@
-[gd_scene load_steps=14 format=3 uid="uid://bbrvq56v4hc0v"]
+[gd_scene load_steps=15 format=3 uid="uid://bbrvq56v4hc0v"]
 
 [ext_resource type="Script" path="res://QuadMask.gd" id="1_5w2st"]
-[ext_resource type="Script" path="res://QuadInput.gd" id="2_psppb"]
+[ext_resource type="Script" path="res://QuadTilt.gd" id="2_vwxty"]
 [ext_resource type="PackedScene" uid="uid://cuxe0ccf2jtxo" path="res://Mask.tscn" id="3_nhn3e"]
 [ext_resource type="Shader" path="res://QuadMask.gdshader" id="4_vod7s"]
+[ext_resource type="Script" path="res://QuadFace.gd" id="5_4b0ii"]
 [ext_resource type="PackedScene" uid="uid://dv354bd7r3aea" path="res://Masked.tscn" id="5_10j1s"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_glf76"]
+size = Vector2(2, 1)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_gaj7f"]
 viewport_path = NodePath("Mask/SubViewport")
@@ -50,12 +52,13 @@ collide_with_areas = true
 
 [node name="Mask" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(0.939693, 0, 0.34202, 0, 1, 0, -0.34202, 0, 0.939693, 0, 0, 0)
+transform = Transform3D(0.999987, -0.00523596, 0, 0.00515642, 0.984794, -0.173648, 0.000909216, 0.173646, 0.984808, 0, 0, 0)
 mesh = SubResource("QuadMesh_glf76")
 surface_material_override/0 = SubResource("StandardMaterial3D_cy4dd")
-script = ExtResource("2_psppb")
+script = ExtResource("2_vwxty")
 
 [node name="SubViewport" type="SubViewport" parent="Mask"]
+size = Vector2i(1024, 512)
 
 [node name="Interface" parent="Mask/SubViewport" instance=ExtResource("3_nhn3e")]
 
@@ -66,10 +69,11 @@ shape = SubResource("BoxShape3D_ieo0t")
 
 [node name="Masked" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, 0.3, 0.3, 0.1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.3, 0.1)
 mesh = SubResource("QuadMesh_phyhs")
 surface_material_override/0 = SubResource("ShaderMaterial_0eajx")
-script = ExtResource("2_psppb")
+script = ExtResource("5_4b0ii")
+look_at_target = NodePath("../Camera3D")
 
 [node name="SubViewport" type="SubViewport" parent="Masked"]
 
